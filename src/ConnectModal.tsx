@@ -199,7 +199,7 @@ function simpleDevicePicker(
   ));
   return (
     <div>
-      <p className="text-sm">Select a connection type.</p>
+      <p className="text-sm">选择一种连接类型.</p>
       <ul className="flex gap-2 pt-2">{connections}</ul>
       {selectedTransport && availableDevices && (
         <ul>
@@ -284,7 +284,7 @@ export const ConnectModal = ({
 
   return (
     <GenericModal ref={dialog} className="max-w-xl">
-      <h1 className="text-xl">Welcome to ZMK Studio</h1>
+      <h1 className="text-xl">欢迎来到ZMK Studio</h1>
       {haveTransports
         ? connectOptions(transports, onTransportCreated, open)
         : noTransportsOptionsPrompt()}
