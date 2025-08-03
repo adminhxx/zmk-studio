@@ -45,7 +45,7 @@ export const PhysicalLayoutPicker = ({
       className="flex flex-col"
       selectedKey={layouts[selectedPhysicalLayoutIndex].name}
     >
-      <Label className="after:content-[':'] text-sm">Layout</Label>
+      <Label className="after:content-[':'] text-sm">布局</Label>
       <Button className="ml-2 p-1 rounded min-w-24 text-left hover:bg-base-300">
         <SelectValue<PhysicalLayoutItem>>
           {(v) => {

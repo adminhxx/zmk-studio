@@ -111,20 +111,20 @@ export const AppHeader = ({
               className="px-2 py-1 hover:bg-base-200"
               onAction={onDisconnect}
             >
-              Disconnect
+              断开连接
             </MenuItem>
             <MenuItem
               className="px-2 py-1 hover:bg-base-200"
               onAction={() => setShowSettingsReset(true)}
             >
-              Restore Stock Settings
+              重置键值配置
             </MenuItem>
           </Menu>
         </Popover>
       </MenuTrigger>
       <div className="flex justify-end gap-1 px-2">
         {onUndo && (
-          <Tooltip label="Undo">
+          <Tooltip label="撤销">
             <Button
               className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
               isDisabled={!canUndo}
@@ -136,7 +136,7 @@ export const AppHeader = ({
         )}
 
         {onRedo && (
-          <Tooltip label="Redo">
+          <Tooltip label="恢复">
             <Button
               className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
               isDisabled={!canRedo}
@@ -146,7 +146,7 @@ export const AppHeader = ({
             </Button>
           </Tooltip>
         )}
-        <Tooltip label="Save">
+        <Tooltip label="保存">
           <Button
             className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
             isDisabled={!unsaved}
@@ -155,7 +155,7 @@ export const AppHeader = ({
             <Save className="inline-block w-4 mx-1" aria-label="Save" />
           </Button>
         </Tooltip>
-        <Tooltip label="Discard">
+        <Tooltip label="忽略">
           <Button
             className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
             onPress={onDiscard}

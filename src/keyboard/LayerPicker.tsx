@@ -168,7 +168,7 @@ export const LayerPicker = ({
   return (
     <div className="flex flex-col min-w-40">
       <div className="grid grid-cols-[1fr_auto_auto] items-center">
-        <Label className="after:content-[':'] text-sm">Layers</Label>
+        <Label className="after:content-[':'] text-sm">键层</Label>
         {onRemoveClicked && (
           <button
             type="button"
