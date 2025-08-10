@@ -12,7 +12,7 @@ import { useModalRef } from "./misc/useModalRef";
 import { LockStateContext } from "./rpc/LockStateContext";
 import { LockState } from "@zmkfirmware/zmk-studio-ts-client/core";
 import { ConnectionContext } from "./rpc/ConnectionContext";
-import { ChevronDown, Undo2, Redo2, Save, Trash2 } from "lucide-react";
+import { ChevronDown, Undo2, Redo2, Save, Trash2, Keyboard } from "lucide-react";
 import { Tooltip } from "./misc/Tooltip";
 import { GenericModal } from "./GenericModal";
 
@@ -43,6 +43,10 @@ export const AppHeader = ({
 
   const lockState = useContext(LockStateContext);
   const connectionState = useContext(ConnectionContext);
+
+  const goTest = () => {
+    window.open('https://app.adamhxx.top/test', '_blank', 'noopener,noreferrer');
+  };
 
   useEffect(() => {
     if (
@@ -123,6 +127,15 @@ export const AppHeader = ({
         </Popover>
       </MenuTrigger>
       <div className="flex justify-end gap-1 px-2">
+       <Tooltip label="测试">
+          <Button
+            className="flex items-center justify-center p-1.5 rounded enabled:hover:bg-base-300 disabled:opacity-50"
+            onPress={goTest}
+          >
+            <Keyboard className="inline-block w-4 mx-1" aria-label="Keyboard" />
+          </Button>
+        </Tooltip>
+
         {onUndo && (
           <Tooltip label="撤销">
             <Button
