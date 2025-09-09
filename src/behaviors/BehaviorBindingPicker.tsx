@@ -128,6 +128,37 @@ export const BehaviorBindingPicker = ({
           onParam2Changed={setParam2}
         />
       )}
+      <div>
+        <label>常用按键: </label>
+        <div className="flex flex-wrap gap-2 mt-2">
+          {[
+            { name: "安卓音量+", behaviorId: 4, param1: 458880 },
+            { name: "安卓音量-", behaviorId: 4, param1: 458881 },
+            { name: "↑", behaviorId: 4, param1: 458834 },
+            { name: "↓", behaviorId: 4, param1: 458833 },
+            { name: "←", behaviorId: 4, param1: 458832 },
+            { name: "→", behaviorId: 4, param1: 458831 },
+            { name: "空格键", behaviorId: 4, param1: 458796 },
+            { name: "回车", behaviorId: 4, param1: 458792 },
+            { name: "退格", behaviorId: 4, param1: 458794 },
+            { name: "Del", behaviorId: 4, param1: 458828 },
+            { name: "Tab", behaviorId: 4, param1: 458795 },
+            { name: "ESC", behaviorId: 4, param1: 458793 },
+          ].map((key, index) => (
+            <button
+              key={index}
+              className="px-3 py-1 border rounded bg-white"
+              onClick={() => {
+                setBehaviorId(key.behaviorId);
+                setParam1(key.param1);
+                setParam2(undefined);
+              }}
+            >
+              {key.name}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
