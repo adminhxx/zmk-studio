@@ -49,7 +49,7 @@ export const BehaviorBindingPicker = ({
   const keyPressBehaviorId = useMemo(() => {
     // 查找displayName包含"按键"或"Key"的行为ID
     return behaviors.find(b => 
-      b.displayName.includes('Key Press')
+      b.displayName == 'Key Press'
     )?.id || 4; // 默认使用4
   }, [behaviors]);
   const [param1, setParam1] = useState<number | undefined>(binding.param1);
