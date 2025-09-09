@@ -46,6 +46,12 @@ export const BehaviorBindingPicker = ({
   onBindingChanged,
 }: BehaviorBindingPickerProps) => {
   const [behaviorId, setBehaviorId] = useState(binding.behaviorId);
+  const keyPressBehaviorId = useMemo(() => {
+    // 查找displayName包含"按键"或"Key"的行为ID
+    return behaviors.find(b => 
+      b.displayName.includes('Key Press')
+    )?.id || 4; // 默认使用4
+  }, [behaviors]);
   const [param1, setParam1] = useState<number | undefined>(binding.param1);
   const [param2, setParam2] = useState<number | undefined>(binding.param2);
 
@@ -132,18 +138,18 @@ export const BehaviorBindingPicker = ({
         <label>常用按键: </label>
         <div className="flex flex-wrap gap-2 mt-2">
           {[
-            { name: "安卓音量+", behaviorId: 4, param1: 458880 },
-            { name: "安卓音量-", behaviorId: 4, param1: 458881 },
-            { name: "↑", behaviorId: 4, param1: 458834 },
-            { name: "↓", behaviorId: 4, param1: 458833 },
-            { name: "←", behaviorId: 4, param1: 458832 },
-            { name: "→", behaviorId: 4, param1: 458831 },
-            { name: "空格键", behaviorId: 4, param1: 458796 },
-            { name: "回车", behaviorId: 4, param1: 458792 },
-            { name: "退格", behaviorId: 4, param1: 458794 },
-            { name: "Del", behaviorId: 4, param1: 458828 },
-            { name: "Tab", behaviorId: 4, param1: 458795 },
-            { name: "ESC", behaviorId: 4, param1: 458793 },
+            { name: "安卓音量+", behaviorId: keyPressBehaviorId, param1: 458880 },
+            { name: "安卓音量-", behaviorId: keyPressBehaviorId, param1: 458881 },
+            { name: "↑", behaviorId: keyPressBehaviorId, param1: 458834 },
+            { name: "↓", behaviorId: keyPressBehaviorId, param1: 458833 },
+            { name: "←", behaviorId: keyPressBehaviorId, param1: 458832 },
+            { name: "→", behaviorId: keyPressBehaviorId, param1: 458831 },
+            { name: "空格键", behaviorId: keyPressBehaviorId, param1: 458796 },
+            { name: "回车", behaviorId: keyPressBehaviorId, param1: 458792 },
+            { name: "退格", behaviorId: keyPressBehaviorId, param1: 458794 },
+            { name: "Del", behaviorId: keyPressBehaviorId, param1: 458828 },
+            { name: "Tab", behaviorId: keyPressBehaviorId, param1: 458795 },
+            { name: "ESC", behaviorId: keyPressBehaviorId, param1: 458793 },
           ].map((key, index) => (
             <button
               key={index}
