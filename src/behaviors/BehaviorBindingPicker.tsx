@@ -55,7 +55,7 @@ export const BehaviorBindingPicker = ({
   const [param1, setParam1] = useState<number | undefined>(binding.param1);
   const [param2, setParam2] = useState<number | undefined>(binding.param2);
   const [layoutName] = useState('default');
-  const mainKeyboard = useRef<Keyboard>(null);
+  const mainKeyboard = useRef<any>(null);
 
   const metadata = useMemo(
     () => behaviors.find((b) => b.id == behaviorId)?.metadata,
@@ -138,20 +138,20 @@ export const BehaviorBindingPicker = ({
       // ]
     },
     display: {
-      "{escape}": "esc",
-      "{tab}": "tab",
+      "{escape}": "Esc",
+      "{tab}": "Tab",
       "{backspace}": "⌫",
-      "{enter}": "enter",
-      "{capslock}": "caps",
-      "{shiftleft}": "shift",
-      "{shiftright}": "shift",
-      "{controlleft}": "ctrl",
-      "{controlright}": "ctrl",
-      "{altleft}": "alt",
-      "{altright}": "alt",
-      "{metaleft}": "win",
-      "{metaright}": "win",
-      "{space}": "space",
+      "{enter}": "Enter",
+      "{capslock}": "Caps",
+      "{shiftleft}": "Shift",
+      "{shiftright}": "Shift",
+      "{controlleft}": "Ctrl",
+      "{controlright}": "Ctrl",
+      "{altleft}": "Alt",
+      "{altright}": "Alt",
+      "{metaleft}": "Win",
+      "{metaright}": "Win",
+      "{space}": "Space",
     },
     onKeyPress: handleKeyPress
   }), [layoutName, handleKeyPress, commonKeyboardOptions]);
@@ -276,7 +276,7 @@ export const BehaviorBindingPicker = ({
   function handleKeyPress(button: string) {
     //console.log("按键按下:", button);
     // 查找对应的键码
-    const keyCode = keyCodeMap[button] || keyCodeMap[button.toLowerCase()];
+    const keyCode = keyCodeMap[button];
     if (keyCode && keyPressBehaviorId) {
       setBehaviorId(keyPressBehaviorId);
       setParam1(keyCode);
@@ -317,7 +317,7 @@ export const BehaviorBindingPicker = ({
       <div>
         {/* <label>虚拟键盘: </label> */}
         <div className="flex flex-col gap-2">
-          <div className="flex flex-row gap-3 items-start">
+          <div className="flex flex-row gap-2">
             {/* 主键盘区域 */}
             <div className="main-keyboard flex-grow">
               <Keyboard
