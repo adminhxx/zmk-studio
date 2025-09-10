@@ -241,7 +241,7 @@ export const BehaviorBindingPicker = ({
   }), [commonKeyboardOptions, handleKeyPress]);
 
   // 按键映射表
-  const keyCodeMap = useMemo(() => ({
+  const keyCodeMap: Record<string, number> = useMemo(() => ({
     // 字母键
     "q": 458772, "w": 458778, "e": 458760, "r": 458773, "t": 458775, "y": 458780, "u": 458776, "i": 458764, "o": 458770, "p": 458771,
     "a": 458756, "s": 458774, "d": 458759, "f": 458761, "g": 458762, "h": 458763, "j": 458765, "k": 458766, "l": 458767,
