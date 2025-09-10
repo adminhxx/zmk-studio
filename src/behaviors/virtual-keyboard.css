@@ -1,0 +1,83 @@
+/* 主键盘样式 */
+.main-keyboard .simple-keyboard {
+  max-width: 1000px;
+}
+
+/* 控制键区和方向键区样式 */
+.control-arrows-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* 数字键区样式 */
+.numpad-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/* 按键样式调整 */
+.virtual-keyboard .hg-button {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 特殊按键样式 */
+.virtual-keyboard .hg-button.hg-functionBtn {
+  background-color: #ffffff;
+}
+
+.virtual-keyboard .hg-button.hg-specialBtn {
+  background-color: #e0e0e0;
+}
+
+/* 按键样式调整 - 1u规格 (40x40px) */
+.virtual-keyboard .hg-button {
+  width: 40px;  /* 设置1u宽度 */
+  height: 40px; /* 设置1u高度 */
+  min-width: 40px; /* 确保最小尺寸 */
+  min-height: 40px; /* 确保最小尺寸 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1px; /* 微小间距避免粘连 */
+}
+
+/* 控制键区样式 - 3个1u按键横向排列 */
+.control-pad .simple-keyboard {
+  width: 144px; /* 3*40px + 4*6px间距 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
+  gap: 6px; /* 按键间距 */
+}
+
+/* 方向键区样式 - 2行3列网格布局 */
+.arrows-pad .simple-keyboard {
+  width: 144px; /* 3*40px + 4*6px间距 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
+  gap: 6px; /* 按键间距 */
+}
+
+.numpad-main .simple-keyboard {
+  width: 158px; /* 3*40px + 4*6px间距 */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
+  gap: 6px; /* 按键间距 */
+}
+
+/* 小数字键区样式 - 2行3列网格布局 */
+.numpad-end .simple-keyboard {
+  width: 52px; /* 3*40px + 3*6px间距 */
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* 3列等宽布局 */
+  gap: 6px; /* 按键间距 */
+}
+
+/* 移除默认flex布局影响 */
+.control-arrows-section, .numpad-section {
+  align-items: flex-start;
+}

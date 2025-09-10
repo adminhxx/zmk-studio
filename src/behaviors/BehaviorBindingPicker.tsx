@@ -1,4 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import Keyboard from 'react-simple-keyboard';
+import 'react-simple-keyboard/build/css/index.css';
+import "./virtual-keyboard.css";
 
 import {
   GetBehaviorDetailsResponse,
@@ -47,13 +50,12 @@ export const BehaviorBindingPicker = ({
 }: BehaviorBindingPickerProps) => {
   const [behaviorId, setBehaviorId] = useState(binding.behaviorId);
   const keyPressBehaviorId = useMemo(() => {
-    // 查找displayName包含"按键"或"Key"的行为ID
-    return behaviors.find(b => 
-      b.displayName == 'Key Press'
-    )?.id || 4; // 默认使用4
+    return behaviors.find(b => b.displayName == 'Key Press')?.id || 4;
   }, [behaviors]);
   const [param1, setParam1] = useState<number | undefined>(binding.param1);
   const [param2, setParam2] = useState<number | undefined>(binding.param2);
+  const [layoutName] = useState('default');
+  const mainKeyboard = useRef<Keyboard>(null);
 
   const metadata = useMemo(
     () => behaviors.find((b) => b.id == behaviorId)?.metadata,
@@ -104,6 +106,184 @@ export const BehaviorBindingPicker = ({
     setParam2(binding.param2);
   }, [binding]);
 
+  // 通用键盘配置
+  const commonKeyboardOptions = useMemo(() => ({
+    physicalKeyboardHighlight: true,
+    syncInstanceInputs: true,
+    mergeDisplay: true,
+    theme: "hg-theme-default virtual-keyboard",
+  }), []);
+
+  // 主键盘配置
+  const mainKeyboardOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layoutName,
+    layout: {
+      default: [
+        "{escape} F1 F2 F3 F4 F5 F6 F7 F8 F9 F10 F11 F12",
+        "` 1 2 3 4 5 6 7 8 9 0 - = {backspace}",
+        "{tab} q w e r t y u i o p [ ] \\",
+        "{capslock} a s d f g h j k l ; ' {enter}",
+        "{shiftleft} z x c v b n m , . / {shiftright}",
+        "{controlleft} {altleft} {metaleft} {space} {controlright} {altright}"
+      ]
+      // ],
+      // shift: [
+      //   "{escape} {f1} {f2} {f3} {f4} {f5} {f6} {f7} {f8} {f9} {f10} {f11} {f12}",
+      //   "~ ! @ # $ % ^ & * ( ) _ + {backspace}",
+      //   "{tab} Q W E R T Y U I O P { } |",
+      //   "{capslock} A S D F G H J K L : \" {enter}",
+      //   "{shiftleft} Z X C V B N M < > ? {shiftright}",
+      //   "{controlleft} {altleft} {metaleft} {space} {metaright} {altright}"
+      // ]
+    },
+    display: {
+      "{escape}": "esc",
+      "{tab}": "tab",
+      "{backspace}": "⌫",
+      "{enter}": "enter",
+      "{capslock}": "caps",
+      "{shiftleft}": "shift",
+      "{shiftright}": "shift",
+      "{controlleft}": "ctrl",
+      "{controlright}": "ctrl",
+      "{altleft}": "alt",
+      "{altright}": "alt",
+      "{metaleft}": "win",
+      "{metaright}": "win",
+      "{space}": "space",
+    },
+    onKeyPress: handleKeyPress
+  }), [layoutName, handleKeyPress, commonKeyboardOptions]);
+
+  // 控制键区配置
+  const controlPadOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: [
+        "{prtscr} {scrolllock} {pause}",
+        "{insert} {home} {pageup}",
+        "{delete} {end} {pagedown}"
+      ]
+    },
+    display: {
+      "{prtscr}": "PS",
+      "{scrolllock}": "SL",
+      "{pause}": "P",
+      "{insert}": "Ins",
+      "{home}": "HM",
+      "{pageup}": "PU",
+      "{delete}": "Del",
+      "{end}": "End",
+      "{pagedown}": "PD"
+    },
+    onKeyPress: handleKeyPress
+  }), [commonKeyboardOptions, handleKeyPress]);
+
+  // 方向键区配置
+  const arrowsOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: ["{arrowup}", "{arrowleft} {arrowdown} {arrowright}"]
+    },
+    display: {
+      "{arrowup}": "↑",
+      "{arrowleft}": "←",
+      "{arrowdown}": "↓",
+      "{arrowright}": "→"
+    },
+    onKeyPress: handleKeyPress
+  }), [commonKeyboardOptions, handleKeyPress]);
+
+  // 数字键区配置
+  const numpadOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: [
+        "{numlock} {numpaddivide} {numpadmultiply}",
+        "{numpad7} {numpad8} {numpad9}",
+        "{numpad4} {numpad5} {numpad6}",
+        "{numpad1} {numpad2} {numpad3}",
+        "{numpad0} {numpaddecimal}"
+      ]
+    },
+    display: {
+      "{numlock}": "Num\nLock",
+      "{numpaddivide}": "/",
+      "{numpadmultiply}": "*",
+      "{numpad7}": "7",
+      "{numpad8}": "8",
+      "{numpad9}": "9",
+      "{numpad4}": "4",
+      "{numpad5}": "5",
+      "{numpad6}": "6",
+      "{numpad1}": "1",
+      "{numpad2}": "2",
+      "{numpad3}": "3",
+      "{numpad0}": "0",
+      "{numpaddecimal}": "."
+    },
+    onKeyPress: handleKeyPress
+  }), [commonKeyboardOptions, handleKeyPress]);
+
+  // 数字键区右侧配置
+  const numpadEndOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: ["{numpadsubtract}", "{numpadadd}", "{numpadenter}"]
+    },
+    display: {
+      "{numpadsubtract}": "-",
+      "{numpadadd}": "+",
+      "{numpadenter}": "Enter"
+    },
+    onKeyPress: handleKeyPress
+  }), [commonKeyboardOptions, handleKeyPress]);
+
+  // 按键映射表
+  const keyCodeMap = useMemo(() => ({
+    // 字母键
+    "q": 458772, "w": 458778, "e": 458760, "r": 458773, "t": 458775, "y": 458780, "u": 458776, "i": 458764, "o": 458770, "p": 458771,
+    "a": 458756, "s": 458774, "d": 458759, "f": 458761, "g": 458762, "h": 458763, "j": 458765, "k": 458766, "l": 458767,
+    "z": 458781, "x": 458779, "c": 458758, "v": 458777, "b": 458757, "n": 458769, "m": 458768,
+    // 数字键
+    "1": 458782, "2": 458783, "3": 458784, "4": 458785, "5": 458786, "6": 458787, "7": 458788, "8": 458789, "9": 458790, "0": 458791,
+    // F键区
+    "F1": 458810, "F2": 458811, "F3": 458812, "F4": 458813, "F5": 458814, "F6": 458815, 
+    "F7": 458816, "F8": 458817, "F9": 458818, "F10": 458819, "F11": 458820, "F12": 458821,
+    // 字符
+    "`": 458805,
+    "-": 458797, "=": 458798, 
+    "[": 458799, "]": 458800, "\\": 458801,
+    ";": 458803, "'": 458804, ",": 458806, ".": 458807, "/": 458808,
+    // 功能键
+    "{escape}": 458793, "{backspace}": 458794, "{tab}": 458795, "{enter}": 458840, "{capslock}": 458809,
+    "{shiftleft}": 458977, "{shiftright}": 458981, "{controlleft}": 458976, "{controlright}": 458980,
+    "{altleft}": 458978, "{altright}": 458982, "{metaleft}": 458979, "{metaright}": 458983, "{space}": 458796,
+    // 控制键区
+    "{prtscr}": 458822, "{scrolllock}": 458823, "{pause}": 458824, "{insert}": 458825, "{home}": 458826,
+    "{pageup}": 458827, "{delete}": 458828, "{end}": 458829, "{pagedown}": 458830,
+    // 方向键
+    "{arrowup}": 458834, "{arrowleft}": 458832, "{arrowdown}": 458833, "{arrowright}": 458831,
+    // 数字小键盘
+    "{numpad7}": 458847, "{numpad8}": 458848, "{numpad9}": 458849, "{numpad4}": 458844, "{numpad5}": 458845,
+    "{numpad6}": 458846, "{numpad1}": 458841, "{numpad2}": 458842, "{numpad3}": 458843, "{numpad0}": 458850,
+    "{numpaddecimal}": 458851, "{numpaddivide}": 458836, "{numpadmultiply}": 458837, "{numpadsubtract}": 458838,
+    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883
+  }), []);
+
+ // 处理按键事件
+  function handleKeyPress(button: string) {
+    //console.log("按键按下:", button);
+    // 查找对应的键码
+    const keyCode = keyCodeMap[button] || keyCodeMap[button.toLowerCase()];
+    if (keyCode && keyPressBehaviorId) {
+      setBehaviorId(keyPressBehaviorId);
+      setParam1(keyCode);
+      setParam2(undefined);
+    }
+  }
+
   return (
     <div className="flex flex-col gap-2">
       <div>
@@ -135,34 +315,43 @@ export const BehaviorBindingPicker = ({
         />
       )}
       <div>
-        <label>常用按键: </label>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {[
-            { name: "安卓音量+", behaviorId: keyPressBehaviorId, param1: 458880 },
-            { name: "安卓音量-", behaviorId: keyPressBehaviorId, param1: 458881 },
-            { name: "↑", behaviorId: keyPressBehaviorId, param1: 458834 },
-            { name: "↓", behaviorId: keyPressBehaviorId, param1: 458833 },
-            { name: "←", behaviorId: keyPressBehaviorId, param1: 458832 },
-            { name: "→", behaviorId: keyPressBehaviorId, param1: 458831 },
-            { name: "空格键", behaviorId: keyPressBehaviorId, param1: 458796 },
-            { name: "回车", behaviorId: keyPressBehaviorId, param1: 458792 },
-            { name: "退格", behaviorId: keyPressBehaviorId, param1: 458794 },
-            { name: "Del", behaviorId: keyPressBehaviorId, param1: 458828 },
-            { name: "Tab", behaviorId: keyPressBehaviorId, param1: 458795 },
-            { name: "ESC", behaviorId: keyPressBehaviorId, param1: 458793 },
-          ].map((key, index) => (
-            <button
-              key={index}
-              className="px-3 py-1 border rounded bg-white"
-              onClick={() => {
-                setBehaviorId(key.behaviorId);
-                setParam1(key.param1);
-                setParam2(undefined);
-              }}
-            >
-              {key.name}
-            </button>
-          ))}
+        {/* <label>虚拟键盘: </label> */}
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row gap-3 items-start">
+            {/* 主键盘区域 */}
+            <div className="main-keyboard flex-grow">
+              <Keyboard
+                ref={mainKeyboard}
+                {...mainKeyboardOptions}
+              />
+            </div>
+
+            {/* 右侧辅助键盘区域 */}
+            <div className="flex flex-col gap-2">
+                {/* 控制键区和方向键区 */}
+                <div className="control-arrows-section flex flex-col gap-2">
+                  <div className="control-pad">
+                    <Keyboard {...controlPadOptions} />
+                  </div>
+                  <div className="arrows-pad">
+                    <Keyboard {...arrowsOptions} />
+                  </div>
+                </div>
+
+                
+            </div>
+            <div className="flex flex-col gap-2">
+                {/* 数字小键盘区域 */}
+                <div className="numpad-section flex-grow">
+                  <div className="numpad-main">
+                    <Keyboard {...numpadOptions} />
+                  </div>
+                  <div className="numpad-end">
+                    <Keyboard {...numpadEndOptions} />
+                  </div>
+                </div>
+            </div>
+        </div>
         </div>
       </div>
     </div>
