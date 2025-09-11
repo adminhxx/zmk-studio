@@ -240,6 +240,22 @@ export const BehaviorBindingPicker = ({
     onKeyPress: handleKeyPress
   }), [commonKeyboardOptions, handleKeyPress]);
 
+  // 安卓特殊按键配置
+  const androidSpecialOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: ["{androidvolup} {androidvoldown} {androidlock} {androidback} {androidhome}"]
+    },display: {
+      "{androidvolup}": "Vol+",
+      "{androidvoldown}": "Vol-",
+      "{androidlock}": "锁屏键",
+      "{androidback}": "返回键",
+      "{androidhome}": "Home键"
+    },
+    onKeyPress: handleKeyPress
+  }), [commonKeyboardOptions, handleKeyPress]);
+
+
   // 按键映射表
   const keyCodeMap: Record<string, number> = useMemo(() => ({
     // 字母键
@@ -269,13 +285,14 @@ export const BehaviorBindingPicker = ({
     "{numpad7}": 458847, "{numpad8}": 458848, "{numpad9}": 458849, "{numpad4}": 458844, "{numpad5}": 458845,
     "{numpad6}": 458846, "{numpad1}": 458841, "{numpad2}": 458842, "{numpad3}": 458843, "{numpad0}": 458850,
     "{numpaddecimal}": 458851, "{numpaddivide}": 458836, "{numpadmultiply}": 458837, "{numpadsubtract}": 458838,
-    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883
+    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883,
+     // 安卓特殊按键
+    "{androidvolup}": 458880, "{androidvoldown}": 458881, "{androidlock}": 786846, 
+    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496
   }), []);
 
  // 处理按键事件
   function handleKeyPress(button: string) {
-    //console.log("按键按下:", button);
-    // 查找对应的键码
     const keyCode = keyCodeMap[button];
     if (keyCode && keyPressBehaviorId) {
       setBehaviorId(keyPressBehaviorId);
@@ -316,42 +333,49 @@ export const BehaviorBindingPicker = ({
       )}
       <div>
         {/* <label>虚拟键盘: </label> */}
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-row gap-2">
-            {/* 主键盘区域 */}
-            <div className="main-keyboard flex-grow">
-              <Keyboard
-                ref={mainKeyboard}
-                {...mainKeyboardOptions}
-              />
-            </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row gap-2">
+              {/* 主键盘区域 */}
+              <div className="main-keyboard flex-grow">
+                <Keyboard
+                  ref={mainKeyboard}
+                  {...mainKeyboardOptions}
+                />
+              </div>
 
-            {/* 右侧辅助键盘区域 */}
-            <div className="flex flex-col gap-2">
-                {/* 控制键区和方向键区 */}
-                <div className="control-arrows-section flex flex-col gap-2">
-                  <div className="control-pad">
-                    <Keyboard {...controlPadOptions} />
+              {/* 右侧辅助键盘区域 */}
+              <div className="flex flex-col gap-2">
+                  {/* 控制键区和方向键区 */}
+                  <div className="control-arrows-section flex flex-col gap-2">
+                    <div className="control-pad">
+                      <Keyboard {...controlPadOptions} />
+                    </div>
+                    <div className="arrows-pad">
+                      <Keyboard {...arrowsOptions} />
+                    </div>
                   </div>
-                  <div className="arrows-pad">
-                    <Keyboard {...arrowsOptions} />
-                  </div>
-                </div>
 
-                
-            </div>
-            <div className="flex flex-col gap-2">
-                {/* 数字小键盘区域 */}
-                <div className="numpad-section flex-grow">
-                  <div className="numpad-main">
-                    <Keyboard {...numpadOptions} />
+                  
+              </div>
+              <div className="flex flex-col gap-2">
+                  {/* 数字小键盘区域 */}
+                  <div className="numpad-section flex-grow">
+                    <div className="numpad-main">
+                      <Keyboard {...numpadOptions} />
+                    </div>
+                    <div className="numpad-end">
+                      <Keyboard {...numpadEndOptions} />
+                    </div>
                   </div>
-                  <div className="numpad-end">
-                    <Keyboard {...numpadEndOptions} />
-                  </div>
-                </div>
+              </div>
+          </div>
+          {/* 安卓特殊按键区域 */}
+          <div className="android-special-keys  flex-grow">
+            <label>安卓特殊按键:</label>
+            <div className="android-special-pad">
+              <Keyboard {...androidSpecialOptions} />
             </div>
-        </div>
+          </div>
         </div>
       </div>
     </div>

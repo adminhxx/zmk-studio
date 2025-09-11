@@ -81,3 +81,11 @@
 .control-arrows-section, .numpad-section {
   align-items: flex-start;
 }
+
+/* 安卓特殊按键样式 */
+.android-special-pad .simple-keyboard {
+  display: flex;
+  gap: 5px;
+  flex-wrap: nowrap;
+}
+.android-special-pad .hg-button { width: 80px; height: 40px; }
