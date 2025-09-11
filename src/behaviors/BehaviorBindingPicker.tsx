@@ -139,12 +139,12 @@ export const BehaviorBindingPicker = ({
     },
     display: {
       "{escape}": "Esc",
-      "{tab}": "Tab",
+      "{tab}": "Tab ⇥",
       "{backspace}": "⌫",
       "{enter}": "Enter",
-      "{capslock}": "Caps",
-      "{shiftleft}": "Shift",
-      "{shiftright}": "Shift",
+      "{capslock}": "Caps ⇪",
+      "{shiftleft}": "Shift ⇧",
+      "{shiftright}": "Shift ⇧",
       "{controlleft}": "Ctrl",
       "{controlright}": "Ctrl",
       "{altleft}": "Alt",
@@ -351,7 +351,8 @@ export const BehaviorBindingPicker = ({
                       <Keyboard {...controlPadOptions} />
                     </div>
                     <div className="arrows-pad">
-                      <Keyboard {...arrowsOptions} />
+                      <Keyboard baseClass={"simple-keyboard-arrows"}
+                      {...arrowsOptions} />
                     </div>
                   </div>
 

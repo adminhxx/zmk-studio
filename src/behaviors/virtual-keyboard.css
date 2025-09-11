@@ -89,3 +89,15 @@
   flex-wrap: nowrap;
 }
 .android-special-pad .hg-button { width: 80px; height: 40px; }
+
+.simple-keyboard-arrows .hg-row {
+  justify-content: center;
+}
+
+.simple-keyboard-arrows .hg-button {
+  width: 40px;
+  flex-grow: 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
