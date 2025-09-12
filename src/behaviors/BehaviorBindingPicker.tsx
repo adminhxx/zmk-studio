@@ -370,7 +370,7 @@ export const BehaviorBindingPicker = ({
               </div>
           </div>
           {/* 安卓特殊按键区域 */}
-          <div className="android-special-keys  flex-grow">
+          <div className="android-special-keys flex-grow">
             <label>安卓特殊按键:</label>
             <div className="android-special-pad">
               <Keyboard {...androidSpecialOptions} />

@@ -48,34 +48,37 @@
 
 /* 控制键区样式 - 3个1u按键横向排列 */
 .control-pad .simple-keyboard {
-  width: 144px; /* 3*40px + 4*6px间距 */
+  width: 140px; /* 3*40px + 4*5px间距 */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
-  gap: 6px; /* 按键间距 */
+  gap: 5px; /* 按键间距 */
 }
 
 /* 方向键区样式 - 2行3列网格布局 */
 .arrows-pad .simple-keyboard {
-  width: 144px; /* 3*40px + 4*6px间距 */
+  width: 140px; /* 3*40px + 4*5px间距 */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
-  gap: 6px; /* 按键间距 */
+  gap: 5px; /* 按键间距 */
   background: none;
+  margin-top: 30px;
 }
 
 .numpad-main .simple-keyboard {
-  width: 158px; /* 3*40px + 4*6px间距 */
+  width: 140px; /* 3*40px + 4*5px间距 */
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
-  gap: 6px; /* 按键间距 */
+  gap: 5px; /* 按键间距 */
+  background: none;
 }
 
 /* 小数字键区样式 - 2行3列网格布局 */
 .numpad-end .simple-keyboard {
-  width: 52px; /* 3*40px + 3*6px间距 */
+  width: 50px; /* 1*40px + 2*5px间距 */
   display: grid;
-  grid-template-columns: repeat(1, 1fr); /* 3列等宽布局 */
-  gap: 6px; /* 按键间距 */
+  grid-template-columns: repeat(1, 1fr);
+  gap: 5px; /* 按键间距 */
+  background: none;
 }
 
 /* 移除默认flex布局影响 */
@@ -88,7 +91,9 @@
   display: flex;
   gap: 5px;
   flex-wrap: nowrap;
+  background: none;
 }
+
 .android-special-pad .hg-button { width: 80px; height: 40px; }
 
 .simple-keyboard-arrows .hg-row {
@@ -103,6 +108,20 @@
   align-items: center;
 }
 
+/* 空格键占比 */
 .hg-button.hg-functionBtn.hg-button-space {
   width: 45.45%;
+}
+
+/* 数字键区 特殊按键样式 */
+.hg-theme-default .hg-button.hg-button-numpadadd {
+  height: 87px;
+}
+
+ .hg-theme-default .hg-button.hg-button-numpadenter {
+  height: 87px;
+ }
+
+.hg-theme-default .hg-button.hg-button-numpad0 {
+  width: 85px;
 }
