@@ -234,7 +234,7 @@ export const BehaviorBindingPicker = ({
     display: {
       "{numpadsubtract}": "-",
       "{numpadadd}": "+",
-      "{numpadenter}": "Enter"
+      "{numpadenter}": "↲"
     },
     onKeyPress: handleKeyPress
   }), [commonKeyboardOptions, handleKeyPress]);
