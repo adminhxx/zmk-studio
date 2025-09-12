@@ -60,6 +60,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
   gap: 6px; /* 按键间距 */
+  background: none;
 }
 
 .numpad-main .simple-keyboard {
@@ -100,4 +101,8 @@
   justify-content: center;
   display: flex;
   align-items: center;
+}
+
+.hg-button.hg-functionBtn.hg-button-space {
+  width: 45.45%;
 }

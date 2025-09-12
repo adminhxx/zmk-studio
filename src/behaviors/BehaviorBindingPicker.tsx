@@ -151,7 +151,6 @@ export const BehaviorBindingPicker = ({
       "{altright}": "Alt",
       "{metaleft}": "Win",
       "{metaright}": "Win",
-      "{space}": "Space",
     },
     onKeyPress: handleKeyPress
   }), [layoutName, handleKeyPress, commonKeyboardOptions]);
