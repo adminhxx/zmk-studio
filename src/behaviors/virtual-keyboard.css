@@ -25,13 +25,9 @@
   justify-content: center;
 }
 
-/* 特殊按键样式 */
+/* 按键样式 */
 .virtual-keyboard .hg-button.hg-functionBtn {
   background-color: #ffffff;
-}
-
-.virtual-keyboard .hg-button.hg-specialBtn {
-  background-color: #e0e0e0;
 }
 
 /* 按键样式调整 - 1u规格 (40x40px) */
@@ -52,6 +48,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3列等宽布局 */
   gap: 5px; /* 按键间距 */
+  background: none;
 }
 
 /* 方向键区样式 - 2行3列网格布局 */
