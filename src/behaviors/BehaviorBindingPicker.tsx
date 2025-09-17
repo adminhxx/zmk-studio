@@ -337,6 +337,7 @@ export const BehaviorBindingPicker = ({
               {/* 主键盘区域 */}
               <div className="main-keyboard flex-grow">
                 <Keyboard
+                  baseClass={"simple-keyboard-main"}
                   ref={mainKeyboard}
                   {...mainKeyboardOptions}
                 />
@@ -347,7 +348,8 @@ export const BehaviorBindingPicker = ({
                   {/* 控制键区和方向键区 */}
                   <div className="control-arrows-section flex flex-col gap-2">
                     <div className="control-pad">
-                      <Keyboard {...controlPadOptions} />
+                      <Keyboard baseClass={"simple-keyboard-control"}
+                      {...controlPadOptions} />
                     </div>
                     <div className="arrows-pad">
                       <Keyboard baseClass={"simple-keyboard-arrows"}
@@ -361,10 +363,12 @@ export const BehaviorBindingPicker = ({
                   {/* 数字小键盘区域 */}
                   <div className="numpad-section flex-grow">
                     <div className="numpad-main">
-                      <Keyboard {...numpadOptions} />
+                      <Keyboard baseClass={"simple-keyboard-numpad"}
+                       {...numpadOptions} />
                     </div>
                     <div className="numpad-end">
-                      <Keyboard {...numpadEndOptions} />
+                      <Keyboard baseClass={"simple-keyboard-numpadEnd"}
+                       {...numpadEndOptions} />
                     </div>
                   </div>
               </div>
