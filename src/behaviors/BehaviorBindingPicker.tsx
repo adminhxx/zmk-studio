@@ -106,13 +106,78 @@ export const BehaviorBindingPicker = ({
     setParam2(binding.param2);
   }, [binding]);
 
+  // 按键映射表
+  const keyCodeMap: Record<string, number> = useMemo(() => ({
+    // 字母键
+    "q": 458772, "w": 458778, "e": 458760, "r": 458773, "t": 458775, "y": 458780, "u": 458776, "i": 458764, "o": 458770, "p": 458771,
+    "a": 458756, "s": 458774, "d": 458759, "f": 458761, "g": 458762, "h": 458763, "j": 458765, "k": 458766, "l": 458767,
+    "z": 458781, "x": 458779, "c": 458758, "v": 458777, "b": 458757, "n": 458769, "m": 458768,
+    // 数字键
+    "1": 458782, "2": 458783, "3": 458784, "4": 458785, "5": 458786, "6": 458787, "7": 458788, "8": 458789, "9": 458790, "0": 458791,
+    // F键区
+    "F1": 458810, "F2": 458811, "F3": 458812, "F4": 458813, "F5": 458814, "F6": 458815, 
+    "F7": 458816, "F8": 458817, "F9": 458818, "F10": 458819, "F11": 458820, "F12": 458821,
+    // 字符
+    "`": 458805,
+    "-": 458797, "=": 458798, 
+    "[": 458799, "]": 458800, "\\": 458801,
+    ";": 458803, "'": 458804, ",": 458806, ".": 458807, "/": 458808,
+    // 功能键
+    "{escape}": 458793, "{backspace}": 458794, "{tab}": 458795, "{enter}": 458792, "{capslock}": 458809,
+    "{shiftleft}": 458977, "{shiftright}": 458981, "{controlleft}": 458976, "{controlright}": 458980,
+    "{altleft}": 458978, "{altright}": 458982, "{metaleft}": 458979, "{metaright}": 458983, "{space}": 458796,
+    // 控制键区
+    "{prtscr}": 458822, "{scrolllock}": 458823, "{pause}": 458824, "{insert}": 458825, "{home}": 458826,
+    "{pageup}": 458827, "{delete}": 458828, "{end}": 458829, "{pagedown}": 458830,
+    // 方向键
+    "{arrowup}": 458834, "{arrowleft}": 458832, "{arrowdown}": 458833, "{arrowright}": 458831,
+    // 数字小键盘
+    "{numpad7}": 458847, "{numpad8}": 458848, "{numpad9}": 458849, "{numpad4}": 458844, "{numpad5}": 458845,
+    "{numpad6}": 458846, "{numpad1}": 458841, "{numpad2}": 458842, "{numpad3}": 458843, "{numpad0}": 458850,
+    "{numpaddecimal}": 458851, "{numpaddivide}": 458836, "{numpadmultiply}": 458837, "{numpadsubtract}": 458838,
+    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883,
+     // 安卓特殊按键
+    "{androidvolup}": 458880, "{androidvoldown}": 458881, "{androidlock}": 786846, 
+    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496
+  }), []);
+
+  // 反向映射表：根据键值找到对应的按键名称
+  const reverseKeyCodeMap = useMemo(() => {
+    const reverseMap: Record<number, string> = {};
+    Object.entries(keyCodeMap).forEach(([keyName, keyCode]) => {
+      reverseMap[keyCode] = keyName;
+    });
+    return reverseMap;
+  }, [keyCodeMap]);
+
+  // 获取当前选中的按键名称
+  const currentKeyName = useMemo(() => {
+    if (behaviorId === keyPressBehaviorId && param1) {
+      return reverseKeyCodeMap[param1];
+    }
+    return null;
+  }, [behaviorId, keyPressBehaviorId, param1, reverseKeyCodeMap]);
+
+  // 高亮样式配置
+  const buttonTheme = useMemo(() => {
+    if (!currentKeyName) return [];
+    
+    return [
+      {
+        class: "hg-highlight",
+        buttons: currentKeyName
+      }
+    ];
+  }, [currentKeyName]);
+
   // 通用键盘配置
   const commonKeyboardOptions = useMemo(() => ({
     physicalKeyboardHighlight: true,
     syncInstanceInputs: true,
     mergeDisplay: true,
     theme: "hg-theme-default virtual-keyboard",
-  }), []);
+    buttonTheme: buttonTheme
+  }), [buttonTheme]);
 
   // 主键盘配置
   const mainKeyboardOptions = useMemo(() => ({
@@ -127,15 +192,6 @@ export const BehaviorBindingPicker = ({
         "{shiftleft} z x c v b n m , . / {shiftright}",
         "{controlleft} {altleft} {metaleft} {space} {controlright} {altright}"
       ]
-      // ],
-      // shift: [
-      //   "{escape} {f1} {f2} {f3} {f4} {f5} {f6} {f7} {f8} {f9} {f10} {f11} {f12}",
-      //   "~ ! @ # $ % ^ & * ( ) _ + {backspace}",
-      //   "{tab} Q W E R T Y U I O P { } |",
-      //   "{capslock} A S D F G H J K L : \" {enter}",
-      //   "{shiftleft} Z X C V B N M < > ? {shiftright}",
-      //   "{controlleft} {altleft} {metaleft} {space} {metaright} {altright}"
-      // ]
     },
     display: {
       "{escape}": "Esc",
@@ -254,43 +310,7 @@ export const BehaviorBindingPicker = ({
     onKeyPress: handleKeyPress
   }), [commonKeyboardOptions, handleKeyPress]);
 
-
-  // 按键映射表
-  const keyCodeMap: Record<string, number> = useMemo(() => ({
-    // 字母键
-    "q": 458772, "w": 458778, "e": 458760, "r": 458773, "t": 458775, "y": 458780, "u": 458776, "i": 458764, "o": 458770, "p": 458771,
-    "a": 458756, "s": 458774, "d": 458759, "f": 458761, "g": 458762, "h": 458763, "j": 458765, "k": 458766, "l": 458767,
-    "z": 458781, "x": 458779, "c": 458758, "v": 458777, "b": 458757, "n": 458769, "m": 458768,
-    // 数字键
-    "1": 458782, "2": 458783, "3": 458784, "4": 458785, "5": 458786, "6": 458787, "7": 458788, "8": 458789, "9": 458790, "0": 458791,
-    // F键区
-    "F1": 458810, "F2": 458811, "F3": 458812, "F4": 458813, "F5": 458814, "F6": 458815, 
-    "F7": 458816, "F8": 458817, "F9": 458818, "F10": 458819, "F11": 458820, "F12": 458821,
-    // 字符
-    "`": 458805,
-    "-": 458797, "=": 458798, 
-    "[": 458799, "]": 458800, "\\": 458801,
-    ";": 458803, "'": 458804, ",": 458806, ".": 458807, "/": 458808,
-    // 功能键
-    "{escape}": 458793, "{backspace}": 458794, "{tab}": 458795, "{enter}": 458840, "{capslock}": 458809,
-    "{shiftleft}": 458977, "{shiftright}": 458981, "{controlleft}": 458976, "{controlright}": 458980,
-    "{altleft}": 458978, "{altright}": 458982, "{metaleft}": 458979, "{metaright}": 458983, "{space}": 458796,
-    // 控制键区
-    "{prtscr}": 458822, "{scrolllock}": 458823, "{pause}": 458824, "{insert}": 458825, "{home}": 458826,
-    "{pageup}": 458827, "{delete}": 458828, "{end}": 458829, "{pagedown}": 458830,
-    // 方向键
-    "{arrowup}": 458834, "{arrowleft}": 458832, "{arrowdown}": 458833, "{arrowright}": 458831,
-    // 数字小键盘
-    "{numpad7}": 458847, "{numpad8}": 458848, "{numpad9}": 458849, "{numpad4}": 458844, "{numpad5}": 458845,
-    "{numpad6}": 458846, "{numpad1}": 458841, "{numpad2}": 458842, "{numpad3}": 458843, "{numpad0}": 458850,
-    "{numpaddecimal}": 458851, "{numpaddivide}": 458836, "{numpadmultiply}": 458837, "{numpadsubtract}": 458838,
-    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883,
-     // 安卓特殊按键
-    "{androidvolup}": 458880, "{androidvoldown}": 458881, "{androidlock}": 786846, 
-    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496
-  }), []);
-
- // 处理按键事件
+  // 处理按键事件
   function handleKeyPress(button: string) {
     const keyCode = keyCodeMap[button];
     if (keyCode && keyPressBehaviorId) {
@@ -331,6 +351,15 @@ export const BehaviorBindingPicker = ({
         />
       )}
       <div>
+        {/* 当前选中按键显示 */}
+        {currentKeyName && (
+          <div className="mb-2 p-2 bg-blue-50 border border-blue-200 rounded">
+            <span className="text-sm font-medium text-blue-700">
+              Selected Key: {currentKeyName.replace(/[{}]/g, '')} (HID: {param1})
+            </span>
+          </div>
+        )}
+        
         {/* <label>虚拟键盘: </label> */}
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
