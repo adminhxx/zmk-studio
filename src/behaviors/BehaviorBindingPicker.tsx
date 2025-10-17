@@ -335,12 +335,14 @@ export const BehaviorBindingPicker = ({
           <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
               {/* 主键盘区域 */}
-              <div className="main-keyboard flex-grow">
-                <Keyboard
-                  baseClass={"simple-keyboard-main"}
-                  ref={mainKeyboard}
-                  {...mainKeyboardOptions}
-                />
+              <div className="flex flex-col gap-2">
+                <div className="main-keyboard flex-grow">
+                  <Keyboard
+                    baseClass={"simple-keyboard-main"}
+                    ref={mainKeyboard}
+                    {...mainKeyboardOptions}
+                  />
+                </div>
               </div>
 
               {/* 右侧辅助键盘区域 */}
@@ -356,8 +358,6 @@ export const BehaviorBindingPicker = ({
                       {...arrowsOptions} />
                     </div>
                   </div>
-
-                  
               </div>
               <div className="flex flex-col gap-2">
                   {/* 数字小键盘区域 */}
