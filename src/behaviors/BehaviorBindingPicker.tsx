@@ -166,32 +166,6 @@ export const BehaviorBindingPicker = ({
     return null;
   }, [behaviorId, bluetoothBehaviorId, keyPressBehaviorId, param1, reverseKeyCodeMap]);
 
-    // 根据按键名称判断所属标签页
-  const getTabForKey = useMemo(() => {
-    return (keyName: string | null): string => {
-      if (!keyName) return 'main';
-      
-      // 特殊按键（安卓和蓝牙）在Special标签页
-      const specialKeys = [
-        '{androidvolup}', '{androidvoldown}', '{androidlock}', 
-        '{androidback}', '{androidhome}', '{androidmenu}',
-        '{clearallprofiles}', '{nextprofile}', '{prevprofile}'
-      ];
-      
-      return specialKeys.includes(keyName) ? 'special' : 'main';
-    };
-  }, []);
-
-  // 自动切换到对应标签页的effect
-  useEffect(() => {
-    if (currentKeyName) {
-      const targetTab = getTabForKey(currentKeyName);
-      if (activeTab !== targetTab) {
-        setActiveTab(targetTab);
-      }
-    }
-  }, [currentKeyName, activeTab, getTabForKey]);
-
   // 高亮样式配置
   const buttonTheme = useMemo(() => {
     if (!currentKeyName) return [];
