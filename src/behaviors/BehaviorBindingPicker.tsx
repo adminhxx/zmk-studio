@@ -52,9 +52,13 @@ export const BehaviorBindingPicker = ({
   const keyPressBehaviorId = useMemo(() => {
     return behaviors.find(b => b.displayName == 'Key Press')?.id || 4;
   }, [behaviors]);
+  const bluetoothBehaviorId = useMemo(() => {
+    return behaviors.find(b => b.displayName == 'Bluetooth')?.id || 5;
+  }, [behaviors]);
   const [param1, setParam1] = useState<number | undefined>(binding.param1);
   const [param2, setParam2] = useState<number | undefined>(binding.param2);
   const [layoutName] = useState('default');
+  const [activeTab, setActiveTab] = useState('main'); // 添加标签页状态
   const mainKeyboard = useRef<any>(null);
 
   const metadata = useMemo(
@@ -138,7 +142,9 @@ export const BehaviorBindingPicker = ({
     "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883,
      // 安卓特殊按键
     "{androidvolup}": 458880, "{androidvoldown}": 458881, "{androidlock}": 786846, 
-    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496
+    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496,
+    // 蓝牙按键
+    "{clearallprofiles}": 4, "{nextprofile}": 1, "{prevprofile}": 2,
   }), []);
 
   // 反向映射表：根据键值找到对应的按键名称
@@ -154,9 +160,37 @@ export const BehaviorBindingPicker = ({
   const currentKeyName = useMemo(() => {
     if (behaviorId === keyPressBehaviorId && param1) {
       return reverseKeyCodeMap[param1];
+    } else if (behaviorId === bluetoothBehaviorId && param1) {
+      return reverseKeyCodeMap[param1];
     }
     return null;
-  }, [behaviorId, keyPressBehaviorId, param1, reverseKeyCodeMap]);
+  }, [behaviorId, bluetoothBehaviorId, keyPressBehaviorId, param1, reverseKeyCodeMap]);
+
+    // 根据按键名称判断所属标签页
+  const getTabForKey = useMemo(() => {
+    return (keyName: string | null): string => {
+      if (!keyName) return 'main';
+      
+      // 特殊按键（安卓和蓝牙）在Special标签页
+      const specialKeys = [
+        '{androidvolup}', '{androidvoldown}', '{androidlock}', 
+        '{androidback}', '{androidhome}', '{androidmenu}',
+        '{clearallprofiles}', '{nextprofile}', '{prevprofile}'
+      ];
+      
+      return specialKeys.includes(keyName) ? 'special' : 'main';
+    };
+  }, []);
+
+  // 自动切换到对应标签页的effect
+  useEffect(() => {
+    if (currentKeyName) {
+      const targetTab = getTabForKey(currentKeyName);
+      if (activeTab !== targetTab) {
+        setActiveTab(targetTab);
+      }
+    }
+  }, [currentKeyName, activeTab, getTabForKey]);
 
   // 高亮样式配置
   const buttonTheme = useMemo(() => {
@@ -310,7 +344,22 @@ export const BehaviorBindingPicker = ({
     onKeyPress: handleKeyPress
   }), [commonKeyboardOptions, handleKeyPress]);
 
+  // 蓝牙按键配置
+  const bluetoothOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: ["{clearallprofiles} {nextprofile} {prevprofile}"]
+    },
+    display: {
+      "{clearallprofiles}": "重置蓝牙",
+      "{nextprofile}": "下一配置",
+      "{prevprofile}": "上一配置"
+    },
+    onKeyPress: handleBluetoothKeyPress
+  }), [commonKeyboardOptions, handleBluetoothKeyPress]);
+
   // 处理按键事件
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleKeyPress(button: string) {
     const keyCode = keyCodeMap[button];
     if (keyCode && keyPressBehaviorId) {
@@ -320,8 +369,18 @@ export const BehaviorBindingPicker = ({
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  function handleBluetoothKeyPress(button: string) {
+    const keyCode = keyCodeMap[button];
+    if (keyCode && bluetoothBehaviorId) {
+      setBehaviorId(bluetoothBehaviorId);
+      setParam1(keyCode);
+      setParam2(undefined);
+    }
+  }
+
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2" id="MainKeyboard">
       <div>
         <label>按键行为: </label>
         <select
@@ -352,16 +411,35 @@ export const BehaviorBindingPicker = ({
       )}
       <div>
         {/* 当前选中按键显示 */}
-        {currentKeyName && (
+        {/* {currentKeyName && (
           <div className="mb-2 p-2 bg-blue-50 border border-blue-200 rounded">
             <span className="text-sm font-medium text-blue-700">
               Selected Key: {currentKeyName.replace(/[{}]/g, '')} (HID: {param1})
             </span>
           </div>
-        )}
+        )} */}
         
-        {/* <label>虚拟键盘: </label> */}
-          <div className="flex flex-col gap-2">
+        {/* 标签页导航 */}
+        <div className="tab-navigation">
+          <button
+            className={`tab-button ${activeTab === 'main' ? 'active' : ''}`}
+            onClick={() => setActiveTab('main')}
+          >
+            Keyboard
+          </button>
+          <button
+            className={`tab-button ${activeTab === 'special' ? 'active' : ''}`}
+            onClick={() => setActiveTab('special')}
+          >
+            Special
+          </button>
+        </div>
+
+        {/* 标签页内容 */}
+        <div className="tab-content">
+          {/* 完整键盘标签页 - 包含主键盘、控制键区和数字键盘 */}
+          {activeTab === 'main' && (
+            <div className="flex flex-col gap-2">
             <div className="flex flex-row gap-2">
               {/* 主键盘区域 */}
               <div className="flex flex-col gap-2">
@@ -401,14 +479,27 @@ export const BehaviorBindingPicker = ({
                     </div>
                   </div>
               </div>
-          </div>
-          {/* 安卓特殊按键区域 */}
-          <div className="android-special-keys flex-grow">
-            <label>安卓特殊按键:</label>
-            <div className="android-special-pad">
-              <Keyboard {...androidSpecialOptions} />
             </div>
-          </div>
+            </div>
+          )}
+
+          {/* 安卓按键标签页 */}
+          {activeTab === 'special' && (
+            <>
+            <span className="tab-title"> Android Common Keys</span>
+            <div className="flex flex-col gap-4">
+              <div className="android-special-pad">
+                <Keyboard {...androidSpecialOptions} />
+              </div>
+            </div>
+            <span className="tab-title"> Bluetooth Keys</span>
+            <div className="flex flex-col gap-4">
+              <div className="bluetooth-pad">
+                <Keyboard {...bluetoothOptions} />
+              </div>
+            </div>
+            </>
+          )}
         </div>
       </div>
     </div>
