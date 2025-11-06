@@ -1,12 +1,12 @@
-import { Pencil, Minus, Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import {
-  DropIndicator,
+  //DropIndicator,
   Label,
   ListBox,
   ListBoxItem,
   Selection,
-  useDragAndDrop,
+  //useDragAndDrop,
 } from "react-aria-components";
 import { useModalRef } from "../misc/useModalRef";
 import { GenericModal } from "../GenericModal";
@@ -105,12 +105,12 @@ const EditLabelModal = ({
 export const LayerPicker = ({
   layers,
   selectedLayerIndex,
-  canAdd,
-  canRemove,
+  //canAdd,
+  //canRemove,
   onLayerClicked,
-  onLayerMoved,
-  onAddClicked,
-  onRemoveClicked,
+  //onLayerMoved,
+  //onAddClicked,
+  //onRemoveClicked,
   onLayerNameChanged,
   ...props
 }: LayerPickerProps) => {
@@ -138,23 +138,23 @@ export const LayerPicker = ({
     [onLayerClicked, layer_items]
   );
 
-  let { dragAndDropHooks } = useDragAndDrop({
-    renderDropIndicator(target) {
-      return (
-        <DropIndicator
-          target={target}
-          className={"data-[drop-target]:outline outline-1 outline-accent"}
-        />
-      );
-    },
-    getItems: (keys) =>
-      [...keys].map((key) => ({ "text/plain": key.toLocaleString() })),
-    onReorder(e) {
-      let startIndex = layer_items.findIndex((l) => e.keys.has(l.id));
-      let endIndex = layer_items.findIndex((l) => l.id === e.target.key);
-      onLayerMoved?.(startIndex, endIndex);
-    },
-  });
+  // let { dragAndDropHooks } = useDragAndDrop({
+  //   renderDropIndicator(target) {
+  //     return (
+  //       <DropIndicator
+  //         target={target}
+  //         className={"data-[drop-target]:outline outline-1 outline-accent"}
+  //       />
+  //     );
+  //   },
+  //   getItems: (keys) =>
+  //     [...keys].map((key) => ({ "text/plain": key.toLocaleString() })),
+  //   onReorder(e) {
+  //     let startIndex = layer_items.findIndex((l) => e.keys.has(l.id));
+  //     let endIndex = layer_items.findIndex((l) => l.id === e.target.key);
+  //     onLayerMoved?.(startIndex, endIndex);
+  //   },
+  // });
 
   const handleSaveNewLabel = useCallback(
     (id: number, oldName: string, newName: string | null) => {
