@@ -169,7 +169,7 @@ export const LayerPicker = ({
     <div className="flex flex-col min-w-40">
       <div className="grid grid-cols-[1fr_auto_auto] items-center">
         <Label className="after:content-[':'] text-sm">键层</Label>
-        {onRemoveClicked && (
+        {/* {onRemoveClicked && (
           <button
             type="button"
             className="hover:text-primary-content hover:bg-primary rounded-sm"
@@ -188,7 +188,7 @@ export const LayerPicker = ({
           >
             <Plus className="size-4" />
           </button>
-        )}
+        )} */}
       </div>
       {editLabelData !== null && (
         <EditLabelModal
@@ -210,7 +210,7 @@ export const LayerPicker = ({
         }
         className="ml-2 items-center justify-center cursor-pointer"
         onSelectionChange={selectionChanged}
-        dragAndDropHooks={dragAndDropHooks}
+        //dragAndDropHooks={dragAndDropHooks}
         {...props}
       >
         {(layer_item) => (
