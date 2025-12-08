@@ -111,60 +111,65 @@ export const BehaviorBindingPicker = ({
   }, [binding]);
 
   // 按键映射表
-  const keyCodeMap: Record<string, number> = useMemo(() => ({
-    // 字母键
-    "q": 458772, "w": 458778, "e": 458760, "r": 458773, "t": 458775, "y": 458780, "u": 458776, "i": 458764, "o": 458770, "p": 458771,
-    "a": 458756, "s": 458774, "d": 458759, "f": 458761, "g": 458762, "h": 458763, "j": 458765, "k": 458766, "l": 458767,
-    "z": 458781, "x": 458779, "c": 458758, "v": 458777, "b": 458757, "n": 458769, "m": 458768,
-    // 数字键
-    "1": 458782, "2": 458783, "3": 458784, "4": 458785, "5": 458786, "6": 458787, "7": 458788, "8": 458789, "9": 458790, "0": 458791,
-    // F键区
-    "F1": 458810, "F2": 458811, "F3": 458812, "F4": 458813, "F5": 458814, "F6": 458815, 
-    "F7": 458816, "F8": 458817, "F9": 458818, "F10": 458819, "F11": 458820, "F12": 458821,
-    // 字符
-    "`": 458805,
-    "-": 458797, "=": 458798, 
-    "[": 458799, "]": 458800, "\\": 458801,
-    ";": 458803, "'": 458804, ",": 458806, ".": 458807, "/": 458808,
-    // 功能键
-    "{escape}": 458793, "{backspace}": 458794, "{tab}": 458795, "{enter}": 458792, "{capslock}": 458809,
-    "{shiftleft}": 458977, "{shiftright}": 458981, "{controlleft}": 458976, "{controlright}": 458980,
-    "{altleft}": 458978, "{altright}": 458982, "{metaleft}": 458979, "{metaright}": 458983, "{space}": 458796,
-    // 控制键区
-    "{prtscr}": 458822, "{scrolllock}": 458823, "{pause}": 458824, "{insert}": 458825, "{home}": 458826,
-    "{pageup}": 458827, "{delete}": 458828, "{end}": 458829, "{pagedown}": 458830,
-    // 方向键
-    "{arrowup}": 458834, "{arrowleft}": 458832, "{arrowdown}": 458833, "{arrowright}": 458831,
-    // 数字小键盘
-    "{numpad7}": 458847, "{numpad8}": 458848, "{numpad9}": 458849, "{numpad4}": 458844, "{numpad5}": 458845,
-    "{numpad6}": 458846, "{numpad1}": 458841, "{numpad2}": 458842, "{numpad3}": 458843, "{numpad0}": 458850,
-    "{numpaddecimal}": 458851, "{numpaddivide}": 458836, "{numpadmultiply}": 458837, "{numpadsubtract}": 458838,
-    "{numpadadd}": 458839, "{numpadenter}": 458840, "{numlock}": 458883,
-     // 安卓特殊按键
-    "{androidvolup}": 458880, "{androidvoldown}": 458881, "{androidlock}": 786846, 
-    "{androidback}": 786980, "{androidhome}": 786979, "{androidmenu}": 786496,
-    // 蓝牙按键
-    "{clearallprofiles}": 4, "{nextprofile}": 1, "{prevprofile}": 2,
-  }), []);
-
-  // 反向映射表：根据键值找到对应的按键名称
-  const reverseKeyCodeMap = useMemo(() => {
-    const reverseMap: Record<number, string> = {};
-    Object.entries(keyCodeMap).forEach(([keyName, keyCode]) => {
-      reverseMap[keyCode] = keyName;
-    });
-    return reverseMap;
-  }, [keyCodeMap]);
+  const keyCodeMap: Record<string, number[]> = useMemo(() => ({
+  // 字母键
+  "q": [458772], "w": [458778], "e": [458760], "r": [458773], "t": [458775], "y": [458780], "u": [458776], "i": [458764], "o": [458770], "p": [458771],
+  "a": [458756], "s": [458774], "d": [458759], "f": [458761], "g": [458762], "h": [458763], "j": [458765], "k": [458766], "l": [458767],
+  "z": [458781], "x": [458779], "c": [458758], "v": [458777], "b": [458757], "n": [458769], "m": [458768],
+  // 数字键
+  "1": [458782], "2": [458783], "3": [458784], "4": [458785], "5": [458786], "6": [458787], "7": [458788], "8": [458789], "9": [458790], "0": [458791],
+  // F键区
+  "F1": [458810], "F2": [458811], "F3": [458812], "F4": [458813], "F5": [458814], "F6": [458815], 
+  "F7": [458816], "F8": [458817], "F9": [458818], "F10": [458819], "F11": [458820], "F12": [458821],
+  // 字符
+  "`": [458805],
+  "-": [458797], "=": [458798], 
+  "[": [458799], "]": [458800], "\\": [458801],
+  ";": [458803], "'": [458804], ",": [458806], ".": [458807], "/": [458808],
+  // 功能键
+  "{escape}": [458793], "{backspace}": [458794], "{tab}": [458795], "{enter}": [458792], "{capslock}": [458809],
+  "{shiftleft}": [458977], "{shiftright}": [458981], "{controlleft}": [458976], "{controlright}": [458980],
+  "{altleft}": [458978], "{altright}": [458982], "{metaleft}": [458979], "{metaright}": [458983], "{space}": [458796],
+  // 控制键区
+  "{prtscr}": [458822], "{scrolllock}": [458823], "{pause}": [458824], "{insert}": [458825], "{home}": [458826],
+  "{pageup}": [458827], "{delete}": [458828], "{end}": [458829], "{pagedown}": [458830],
+  // 方向键
+  "{arrowup}": [458834], "{arrowleft}": [458832], "{arrowdown}": [458833], "{arrowright}": [458831],
+  // 数字小键盘
+  "{numpad7}": [458847], "{numpad8}": [458848], "{numpad9}": [458849], "{numpad4}": [458844], "{numpad5}": [458845],
+  "{numpad6}": [458846], "{numpad1}": [458841], "{numpad2}": [458842], "{numpad3}": [458843], "{numpad0}": [458850],
+  "{numpaddecimal}": [458851], "{numpaddivide}": [458836], "{numpadmultiply}": [458837], "{numpadsubtract}": [458838],
+  "{numpadadd}": [458839], "{numpadenter}": [458840], "{numlock}": [458883],
+   // 安卓特殊按键
+  "{androidvolup}": [458880], "{androidvoldown}": [458881], "{androidlock}": [786846], 
+  "{androidback}": [786980], "{androidhome}": [786979], "{androidmenu}": [786496],
+  // 蓝牙按键
+  "{clearallprofiles}": [4], "{nextprofile}": [1], "{prevprofile}": [2],
+  "{select0}": [3,0], "{select1}": [3,1],
+}), []);
 
   // 获取当前选中的按键名称
   const currentKeyName = useMemo(() => {
-    if (behaviorId === keyPressBehaviorId && param1) {
-      return reverseKeyCodeMap[param1];
-    } else if (behaviorId === bluetoothBehaviorId && param1) {
-      return reverseKeyCodeMap[param1];
+    if ((behaviorId === keyPressBehaviorId || behaviorId === bluetoothBehaviorId) && param1 !== undefined) {
+      // 查找匹配param1和param2的按键
+      for (const [keyName, keyCodes] of Object.entries(keyCodeMap)) {
+        if (keyCodes[0] === param1) {
+          // 如果keyCodeMap中有第二个参数
+          if (keyCodes.length > 1) {
+            // 检查param2是否匹配
+            if (keyCodes[1] === param2) {
+              return keyName;
+            }
+          } else {
+            if (param2 === undefined || param2 === 0) {
+              return keyName;
+            }
+          }
+        }
+      }
     }
     return null;
-  }, [behaviorId, bluetoothBehaviorId, keyPressBehaviorId, param1, reverseKeyCodeMap]);
+  }, [behaviorId, bluetoothBehaviorId, keyPressBehaviorId, param1, param2, keyCodeMap]);
 
   // 高亮样式配置
   const buttonTheme = useMemo(() => {
@@ -322,34 +327,42 @@ export const BehaviorBindingPicker = ({
   const bluetoothOptions = useMemo(() => ({
     ...commonKeyboardOptions,
     layout: {
-      default: ["{clearallprofiles} {nextprofile} {prevprofile}"]
+      default: ["{clearallprofiles} {nextprofile} {prevprofile} {select0} {select1}"]
     },
     display: {
       "{clearallprofiles}": "重置蓝牙",
       "{nextprofile}": "下一配置",
-      "{prevprofile}": "上一配置"
+      "{prevprofile}": "上一配置",
+      "{select0}": "切至配置0",
+      "{select1}": "切至配置1",
     },
-    onKeyPress: handleBluetoothKeyPress
+    onKeyPress: handleBluetoothKeyPress,
+    baseClass: "simple-keyboard-bluetooth"
   }), [commonKeyboardOptions, handleBluetoothKeyPress]);
 
   // 处理按键事件
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleKeyPress(button: string) {
-    const keyCode = keyCodeMap[button];
-    if (keyCode && keyPressBehaviorId) {
+    const keyCodes = keyCodeMap[button];
+    if (keyCodes && keyPressBehaviorId) {
       setBehaviorId(keyPressBehaviorId);
-      setParam1(keyCode);
+      setParam1(keyCodes[0]);
       setParam2(undefined);
     }
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleBluetoothKeyPress(button: string) {
-    const keyCode = keyCodeMap[button];
-    if (keyCode && bluetoothBehaviorId) {
+    const keyCodes = keyCodeMap[button];
+    if (keyCodes && bluetoothBehaviorId) {
       setBehaviorId(bluetoothBehaviorId);
-      setParam1(keyCode);
-      setParam2(undefined);
+      setParam1(keyCodes[0]);
+       // 如果有第二个参数，则设置param2
+      if (keyCodes.length > 1) {
+        setParam2(keyCodes[1]);
+      } else {
+        setParam2(undefined);
+      }
     }
   }
 
@@ -457,7 +470,7 @@ export const BehaviorBindingPicker = ({
             </div>
           )}
 
-          {/* 安卓按键标签页 */}
+          {/* 特殊按键标签页 */}
           {activeTab === 'special' && (
             <>
             <span className="tab-title"> Android Common Keys</span>

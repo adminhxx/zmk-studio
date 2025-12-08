@@ -320,3 +320,17 @@
     height: 2px;
   }
 }
+
+/* 蓝牙按键高亮时的自适应宽度配置 */
+.simple-keyboard-bluetooth .hg-button.hg-highlight {
+  width: auto !important;
+  min-width: auto !important;
+  flex: 0 0 auto !important;
+  padding: 0 12px !important;
+}
+
+/* 确保蓝牙按键在高亮状态下保持内容自适应宽度 */
+.simple-keyboard-bluetooth .hg-button.hg-highlight {
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
