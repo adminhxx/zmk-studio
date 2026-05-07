@@ -125,6 +125,22 @@
 
 .bluetooth-pad .hg-button { min-width: 90px; height: 40px; }
 
+.windows-shortcuts-pad .simple-keyboard {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  background: none;
+}
+
+.windows-shortcuts-pad .hg-button {
+  min-width: 76px;
+  width: auto;
+  padding: 0 12px;
+  height: 40px;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
 .simple-keyboard-arrows .hg-row {
   justify-content: center;
 }
@@ -184,6 +200,11 @@
   .main-keyboard .simple-keyboard {
     min-width: auto;
     max-width: 100%;
+  }
+
+  .windows-shortcuts-pad .hg-button {
+    min-width: 68px;
+    padding: 0 10px;
   }
   
   .current-key-display {

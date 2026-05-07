@@ -18,6 +18,17 @@ export interface BehaviorBindingPickerProps {
   onBindingChanged: (binding: BehaviorBinding) => void;
 }
 
+enum ModifierFlag {
+  LeftControl = 0x01,
+  LeftAlt = 0x04,
+  LeftGUI = 0x08,
+}
+
+function withModifiers(baseKey: number, ...mods: ModifierFlag[]): number {
+  const modFlags = mods.reduce((sum, mod) => sum + mod, 0);
+  return baseKey | (modFlags << 24);
+}
+
 function validateBinding(
   metadata: BehaviorBindingParametersSet[],
   layerIds: number[],
@@ -146,6 +157,12 @@ export const BehaviorBindingPicker = ({
   // 蓝牙按键
   "{clearallprofiles}": [4], "{nextprofile}": [1], "{prevprofile}": [2],
   "{select0}": [3,0], "{select1}": [3,1],
+  // Windows 常用组合键
+  "{wincopy}": [withModifiers(458758, ModifierFlag.LeftControl)],
+  "{winpaste}": [withModifiers(458777, ModifierFlag.LeftControl)],
+  "{winsave}": [withModifiers(458774, ModifierFlag.LeftControl)],
+  "{winswitch}": [withModifiers(458795, ModifierFlag.LeftAlt)],
+  "{winlock}": [withModifiers(458767, ModifierFlag.LeftGUI)],
 }), []);
 
   // 获取当前选中的按键名称
@@ -340,6 +357,22 @@ export const BehaviorBindingPicker = ({
     baseClass: "simple-keyboard-bluetooth"
   }), [commonKeyboardOptions, handleBluetoothKeyPress]);
 
+  const windowsShortcutOptions = useMemo(() => ({
+    ...commonKeyboardOptions,
+    layout: {
+      default: ["{wincopy} {winpaste} {winsave} {winswitch} {winlock}"]
+    },
+    display: {
+      "{wincopy}": "复制",
+      "{winpaste}": "粘贴",
+      "{winsave}": "保存",
+      "{winswitch}": "切换",
+      "{winlock}": "锁屏"
+    },
+    onKeyPress: handleKeyPress,
+    baseClass: "simple-keyboard-windows-shortcuts"
+  }), [commonKeyboardOptions, handleKeyPress]);
+
   // 处理按键事件
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleKeyPress(button: string) {
@@ -473,6 +506,12 @@ export const BehaviorBindingPicker = ({
           {/* 特殊按键标签页 */}
           {activeTab === 'special' && (
             <>
+            <span className="tab-title"> Windows Common Shortcuts</span>
+            <div className="flex flex-col gap-4">
+              <div className="windows-shortcuts-pad">
+                <Keyboard {...windowsShortcutOptions} />
+              </div>
+            </div>
             <span className="tab-title"> Android Common Keys</span>
             <div className="flex flex-col gap-4">
               <div className="android-special-pad">
