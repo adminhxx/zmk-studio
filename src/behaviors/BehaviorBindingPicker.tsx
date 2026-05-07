@@ -158,6 +158,7 @@ export const BehaviorBindingPicker = ({
   "{clearallprofiles}": [4], "{nextprofile}": [1], "{prevprofile}": [2],
   "{select0}": [3,0], "{select1}": [3,1],
   // Windows 常用组合键
+  "{winselectall}": [withModifiers(458756, ModifierFlag.LeftControl)],
   "{wincopy}": [withModifiers(458758, ModifierFlag.LeftControl)],
   "{winpaste}": [withModifiers(458777, ModifierFlag.LeftControl)],
   "{winsave}": [withModifiers(458774, ModifierFlag.LeftControl)],
@@ -360,9 +361,10 @@ export const BehaviorBindingPicker = ({
   const windowsShortcutOptions = useMemo(() => ({
     ...commonKeyboardOptions,
     layout: {
-      default: ["{wincopy} {winpaste} {winsave} {winswitch} {winlock}"]
+      default: ["{winselectall} {wincopy} {winpaste} {winsave} {winswitch} {winlock}"]
     },
     display: {
+      "{winselectall}": "全选",
       "{wincopy}": "复制",
       "{winpaste}": "粘贴",
       "{winsave}": "保存",
