@@ -150,7 +150,7 @@ export const BehaviorBindingPicker = ({
   "{numpad7}": [458847], "{numpad8}": [458848], "{numpad9}": [458849], "{numpad4}": [458844], "{numpad5}": [458845],
   "{numpad6}": [458846], "{numpad1}": [458841], "{numpad2}": [458842], "{numpad3}": [458843], "{numpad0}": [458850],
   "{numpaddecimal}": [458851], "{numpaddivide}": [458836], "{numpadmultiply}": [458837], "{numpadsubtract}": [458838],
-  "{numpadadd}": [458839], "{numpadenter}": [458840], "{numlock}": [458883],
+  "{numpadadd}": [458839], "{numpadenter}": [458840], "{numlock}": [458835],
    // 安卓特殊按键
   "{androidvolup}": [458880], "{androidvoldown}": [458881], "{androidlock}": [786846], 
   "{androidback}": [786980], "{androidhome}": [786979], "{androidmenu}": [786496],
