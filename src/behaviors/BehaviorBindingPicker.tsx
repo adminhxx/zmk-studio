@@ -168,10 +168,11 @@ export const BehaviorBindingPicker = ({
 
   // 获取当前选中的按键名称
   const currentKeyName = useMemo(() => {
-    if ((behaviorId === keyPressBehaviorId || behaviorId === bluetoothBehaviorId) && param1 !== undefined) {
-      // 查找匹配param1和param2的按键
+    // 剥离param1中的修饰键位（高位字节），只保留基础HID键码
+    const baseKey = param1 !== undefined ? (param1 & 0x00FFFFFF) : undefined;
+    if ((behaviorId === keyPressBehaviorId || behaviorId === bluetoothBehaviorId) && baseKey !== undefined) {
       for (const [keyName, keyCodes] of Object.entries(keyCodeMap)) {
-        if (keyCodes[0] === param1) {
+        if (keyCodes[0] === baseKey) {
           // 如果keyCodeMap中有第二个参数
           if (keyCodes.length > 1) {
             // 检查param2是否匹配
